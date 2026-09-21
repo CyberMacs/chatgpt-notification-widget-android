@@ -1,0 +1,25 @@
+# Android / Gradle build outputs
+.gradle/
+.kotlin/
+**/build/
+*.apk
+*.aab
+
+# Local Android SDK configuration
+local.properties
+
+# Local archives, backups and diagnostics
+Final/
+BackUp/
+build-apk*.log
+
+# IDE and operating-system files
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Local project archive records (not part of the public source repository)
+\!Manual/
+GPT-tapasztalat.md
+docs/github-readiness/

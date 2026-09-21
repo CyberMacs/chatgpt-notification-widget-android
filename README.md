@@ -2,6 +2,14 @@
 
 Teljesen helyi, natív Android alkalmazás és Home Screen widget. Kizárólag a hivatalos ChatGPT alkalmazás (`com.openai.chatgpt`) értesítéseit tárolja és jeleníti meg.
 
+## Gyors telepítés kezdőknek
+
+1. Nyisd meg a [legújabb kiadást](https://github.com/CyberMacs/chatgpt-notification-widget-android/releases/latest).
+2. Töltsd le a ChatGPT-Notification-Widget-v0.1.0.apk fájlt.
+3. Kövesd a rövid, képeszköz nélkül is érthető [telepítési útmutatót](INSTALL.md).
+
+A telepítés nem igényel Android Studiót vagy programozási ismeretet.
+
 ## Adatvédelem
 
 Nincs INTERNET engedély, analitika vagy felhőkapcsolat. A Notification Listener már az esemény beérkezésekor eldob minden nem ChatGPT csomagból érkező értesítést. Az előzmények Room adatbázisban, a készüléken maradnak.

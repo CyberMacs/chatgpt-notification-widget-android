@@ -11,11 +11,18 @@ class WidgetActionReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val result = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
-            val repository = NotificationRepository(AppDatabase.get(context), SettingsRepository(context))
+            val repository = NotificationRepository(context, AppDatabase.get(context), SettingsRepository(context))
             when (intent.action) {
                 ACTION_READ_ALL -> repository.markAllRead()
-                ACTION_OPEN -> { val key = intent.getStringExtra(EXTRA_KEY).orEmpty(); repository.markRead(key); try { ChatGptNotificationListener.takeIntent(key)?.send() ?: openChatGpt(context) } catch (_: Exception) { openChatGpt(context) } }
-                ACTION_REFRESH -> ChatGptWidgetProvider.refreshAll()
+                ACTION_OPEN -> {
+                    val key = intent.getStringExtra(EXTRA_KEY).orEmpty()
+                    repository.markRead(key)
+                    try { ChatGptNotificationListener.takeIntent(key)?.send() ?: openChatGpt(context) } catch (_: Exception) { openChatGpt(context) }
+                }
+                ACTION_REFRESH -> {
+                    ChatGptNotificationListener.requestRefresh(context)
+                    ChatGptWidgetProvider.refreshAll(context)
+                }
             }
             result.finish()
         }

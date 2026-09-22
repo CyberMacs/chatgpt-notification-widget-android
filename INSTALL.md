@@ -3,7 +3,7 @@
 ## 1. APK letöltése
 
 1. Nyisd meg a projekt GitHub oldalán a **Releases** részt.
-2. A legújabb kiadásnál töltsd le a `ChatGPT-Notification-Widget-v0.1.0.apk` fájlt.
+2. A legújabb kiadásnál töltsd le a `ChatGPT-Notification-Widget-v0.1.3.apk` fájlt.
 3. A letöltés után nyisd meg a fájlt a telefon **Saját fájlok** alkalmazásából.
 
 ## 2. Egyszeri, ideiglenes Android-engedélyek
@@ -28,6 +28,4 @@ Az APK Android debug aláírással készült, ezért a Play Protect figyelmeztet
 
 ## Ellenőrző összeg
 
-SHA-256: `
-CE2A943B7A36CA690BC78225118AF62F5C12ED12E9189A63C9C34176CE1A327E
-`
+SHA-256: `23AC2DFE211FA6B91B20BF06200B0F085BA39AF4F959F6DAA6F466CB3900009F`

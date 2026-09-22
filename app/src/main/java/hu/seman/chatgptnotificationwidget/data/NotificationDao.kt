@@ -8,7 +8,9 @@ interface NotificationDao {
     @Query("SELECT * FROM chatgpt_notifications ORDER BY postedAt DESC") fun observeAll(): Flow<List<NotificationEntity>>
     @Query("SELECT * FROM chatgpt_notifications WHERE isRead = 0 ORDER BY postedAt DESC") fun observeUnread(): Flow<List<NotificationEntity>>
     @Query("SELECT * FROM chatgpt_notifications ORDER BY postedAt DESC LIMIT :limit") suspend fun latest(limit: Int): List<NotificationEntity>
+    @Query("SELECT * FROM chatgpt_notifications WHERE isRead = 0 ORDER BY postedAt DESC LIMIT :limit") suspend fun latestUnread(limit: Int): List<NotificationEntity>
     @Query("SELECT COUNT(*) FROM chatgpt_notifications WHERE isRead = 0") suspend fun unreadCount(): Int
+    @Query("SELECT isRead FROM chatgpt_notifications WHERE notificationKey = :key LIMIT 1") suspend fun readState(key: String): Boolean?
     @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun upsert(item: NotificationEntity)
     @Query("UPDATE chatgpt_notifications SET isRead = 1") suspend fun markAllRead()
     @Query("UPDATE chatgpt_notifications SET isRead = 1 WHERE notificationKey = :key") suspend fun markRead(key: String)

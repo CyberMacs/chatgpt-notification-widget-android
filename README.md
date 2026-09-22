@@ -5,7 +5,7 @@ Teljesen helyi, natív Android alkalmazás és Home Screen widget. Kizárólag a
 ## Gyors telepítés kezdőknek
 
 1. Nyisd meg a [legújabb kiadást](https://github.com/CyberMacs/chatgpt-notification-widget-android/releases/latest).
-2. Töltsd le a ChatGPT-Notification-Widget-v0.1.0.apk fájlt.
+2. Töltsd le a ChatGPT-Notification-Widget-v0.1.3.apk fájlt.
 3. Kövesd a rövid, képeszköz nélkül is érthető [telepítési útmutatót](INSTALL.md).
 
 A telepítés nem igényel Android Studiót vagy programozási ismeretet.
@@ -58,3 +58,30 @@ Az APK saját, helyi debug build, ezért nem a Google Playről származik. Csak 
 ## License
 
 This project is licensed under the GNU General Public License v3.0 or later. See [LICENSE](LICENSE).
+
+## Widget frissítés és méret – v0.1.1
+
+- Az értesítésérkezés, az **Olvasott** és a **Frissítés** gomb már a pillanatnyi Android `Context` alapján frissíti az összes hozzáadott widgetet; rendszerfolyamat-újraindítás után is.
+- A widget átméretezhető: kis magasságnál 1, közepesnél 2, nagynál 3 értesítés jelenik meg. A kis méretnél a gombsor elrejtőzik, hogy a tartalom olvasható maradjon.
+- Az értesítés érintése először az eredeti ChatGPT értesítés műveletét próbálja megnyitni. Ha az Android ezt már nem engedi vagy az alkalmazás újraindult, a ChatGPT főalkalmazás nyílik meg.
+
+## v0.1.1 – Widgetjavítások
+
+- Az új ChatGPT értesítés automatikusan frissíti az összes hozzáadott widgetet.
+- A **Frissítés** és az **Olvasott** gomb rendszerfolyamat újraindítása után is működik.
+- A widget mérete változtatható: kis méretben 1, közepesben 2, nagy méretben 3 értesítést mutat.
+- Az értesítés megérintése elsőként az eredeti ChatGPT értesítéshez tartozó chatet nyitja meg. Ha ezt az Android már nem engedi, a ChatGPT főképernyője nyílik meg.
+
+## v0.1.2 – Telepítés ellenőrzése
+
+Az alkalmazás főképernyőjének címe most kiírja a telepített verziót, például **ChatGPT értesítések v0.1.2**. Telepítés után ezt ellenőrizd először. Ha más verzió jelenik meg, a régi APK fut: töltsd le újra a v0.1.2 fájlt, telepítsd rá a meglévő alkalmazásra, majd a widgetet hosszú nyomással távolítsd el és add hozzá újra.
+
+Az értesítésfigyelő újracsatlakozáskor feldolgozza a még aktív ChatGPT értesítéseket, ezért telepítés vagy rendszerújraindítás után is frissítenie kell a widgetet.
+
+## v0.1.3 – Kézi frissítés és widgetváltozatok
+
+- A főképernyőn látható **Frissítés** gomb újracsatlakoztatja az Android értesítésfigyelőt, majd a még aktív ChatGPT értesítéseket beolvassa.
+- A widget **Frissítés** gombja ugyanezt a frissítést indítja el; nem csak a régi helyi listát rajzolja újra.
+- A Widgetek listában három külön elem jelenik meg: **ChatGPT értesítések – Kicsi**, **– Közepes** és **– Részletes**. Mindhárom vízszintesen és függőlegesen átméretezhető.
+- Telepítés után a régi widgetet töröld a kezdőképernyőről, és az új listából add hozzá a kívánt változatot.
+- A főképernyő fejlécében **v0.1.3** legyen látható. Ha más szám látszik, nem ez az APK fut a telefonon.

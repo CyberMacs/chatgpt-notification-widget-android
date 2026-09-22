@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
@@ -19,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import hu.seman.chatgptnotificationwidget.data.*
+import hu.seman.chatgptnotificationwidget.service.ChatGptNotificationListener
 import hu.seman.chatgptnotificationwidget.widget.ChatGptWidgetProvider
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -41,19 +43,19 @@ private class AppViewModel(private val repository: NotificationRepository, priva
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable private fun WidgetApp(activity: MainActivity) {
-    val vm: AppViewModel = androidx.lifecycle.viewmodel.compose.viewModel(factory = object : ViewModelProvider.Factory { override fun <T : ViewModel> create(modelClass: Class<T>): T { val db = AppDatabase.get(activity); @Suppress("UNCHECKED_CAST") return AppViewModel(NotificationRepository(db, SettingsRepository(activity)), SettingsRepository(activity)) as T } })
+    val vm: AppViewModel = androidx.lifecycle.viewmodel.compose.viewModel(factory = object : ViewModelProvider.Factory { override fun <T : ViewModel> create(modelClass: Class<T>): T { val db = AppDatabase.get(activity); @Suppress("UNCHECKED_CAST") return AppViewModel(NotificationRepository(activity, db, SettingsRepository(activity)), SettingsRepository(activity)) as T } })
     val notifications by vm.notifications.collectAsStateWithLifecycle()
     val settings by vm.settings.collectAsStateWithLifecycle()
     var screen by remember { mutableStateOf("home") }
     val access = notificationAccessGranted(activity)
-    Scaffold(topBar = { TopAppBar(title = { Text(if (screen == "home") "ChatGPT értesítések" else "Beállítások") }, navigationIcon = { if (screen == "settings") { TextButton(onClick = { screen = "home" }) { Text("‹ Vissza") } } }) }) { padding ->
-        if (screen == "settings") SettingsScreen(settings, vm, Modifier.padding(padding)) else HomeScreen(notifications, access, { activity.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")) }, { screen = "settings" }, vm, Modifier.padding(padding))
+    Scaffold(topBar = { TopAppBar(title = { Text(if (screen == "home") "ChatGPT értesítések v${BuildConfig.VERSION_NAME}" else "Beállítások") }, navigationIcon = { if (screen == "settings") { TextButton(onClick = { screen = "home" }) { Text("‹ Vissza") } } }) }) { padding ->
+        if (screen == "settings") SettingsScreen(settings, vm, Modifier.padding(padding)) else HomeScreen(notifications, access, { activity.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")) }, { val started = ChatGptNotificationListener.requestRefresh(activity); Toast.makeText(activity, if (started) "Értesítések frissítése elindítva" else "Előbb engedélyezd az értesítés-hozzáférést", Toast.LENGTH_SHORT).show() }, { screen = "settings" }, vm, Modifier.padding(padding))
     }
 }
 
-@Composable private fun HomeScreen(items: List<NotificationEntity>, access: Boolean, enable: () -> Unit, settings: () -> Unit, vm: AppViewModel, modifier: Modifier) = LazyColumn(modifier = modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+@Composable private fun HomeScreen(items: List<NotificationEntity>, access: Boolean, enable: () -> Unit, refresh: () -> Unit, settings: () -> Unit, vm: AppViewModel, modifier: Modifier) = LazyColumn(modifier = modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
     item { Card { Column(Modifier.padding(16.dp)) { Text(if (access) "Értesítés-hozzáférés engedélyezve" else "Értesítés-hozzáférés szükséges", style = MaterialTheme.typography.titleMedium); Text(if (access) "Csak a ChatGPT értesítéseit mentjük helyben." else "A widget csak az engedélyezés után tud ChatGPT értesítéseket gyűjteni.", style = MaterialTheme.typography.bodyMedium); if (!access) Button(onClick = enable, modifier = Modifier.padding(top = 8.dp)) { Text("Értesítés-hozzáférés engedélyezése") } } } }
-    item { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("${items.count { !it.isRead }} olvasatlan", style = MaterialTheme.typography.titleMedium); Row { TextButton(onClick = vm::readAll) { Text("Mind olvasott") }; TextButton(onClick = vm::clear) { Text("Törlés") } } } }
+    item { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("${items.count { !it.isRead }} olvasatlan", style = MaterialTheme.typography.titleMedium); Row { TextButton(onClick = refresh) { Text("Frissítés") }; TextButton(onClick = vm::readAll) { Text("Mind olvasott") }; TextButton(onClick = vm::clear) { Text("Törlés") } } } }
     item { OutlinedButton(onClick = settings, modifier = Modifier.fillMaxWidth()) { Text("Beállítások és widget tartalma") } }
     if (items.isEmpty()) item { Text("Még nincs ChatGPT értesítés. A rendszer más alkalmazásait nem tároljuk.", style = MaterialTheme.typography.bodyLarge) }
     items(items, key = { it.notificationKey }) { item -> ListItem(headlineContent = { Text(item.title.ifBlank { "ChatGPT" }) }, supportingContent = { Text(item.body.ifBlank { "Nincs megjeleníthető szöveg" }) }, overlineContent = { Text(if (item.isRead) "Olvasott" else "Olvasatlan • " + DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(item.postedAt))) }) }

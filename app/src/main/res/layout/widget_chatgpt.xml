@@ -6,7 +6,7 @@
     <TextView android:id="@+id/widget_item_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:textColor="#FFFFFFFF" android:textSize="14sp" android:maxLines="2" />
     <TextView android:id="@+id/widget_item_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textColor="#FFDAE2EA" android:textSize="14sp" android:maxLines="2" />
     <TextView android:id="@+id/widget_item_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textColor="#FFDAE2EA" android:textSize="14sp" android:maxLines="2" />
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="end">
+    <LinearLayout android:id="@+id/widget_actions" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="end">
         <TextView android:id="@+id/widget_mark_read" android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="6dp" android:text="✓ Olvasott" android:textColor="#FFFFFFFF" android:textSize="12sp" />
         <TextView android:id="@+id/widget_refresh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="6dp" android:text="↻ Frissítés" android:textColor="#FFFFFFFF" android:textSize="12sp" />
     </LinearLayout>

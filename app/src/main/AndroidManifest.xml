@@ -1,17 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application android:allowBackup="true" android:label="ChatGPT értesítések" android:theme="@style/Theme.ChatGPTNotificationWidget">
         <activity android:name=".MainActivity" android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
         </activity>
         <service android:name=".service.ChatGptNotificationListener" android:label="ChatGPT értesítések figyelése" android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" android:exported="true">
             <intent-filter><action android:name="android.service.notification.NotificationListenerService" /></intent-filter>
         </service>
-        <receiver android:name=".widget.ChatGptWidgetProvider" android:exported="true" android:label="ChatGPT értesítések">
+        <receiver android:name=".widget.ChatGptWidgetProvider" android:exported="true" android:label="@string/widget_medium">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/chatgpt_widget_info" />
+        </receiver>
+        <receiver android:name=".widget.CompactChatGptWidgetProvider" android:exported="true" android:label="@string/widget_compact">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/chatgpt_widget_compact_info" />
+        </receiver>
+        <receiver android:name=".widget.DetailedChatGptWidgetProvider" android:exported="true" android:label="@string/widget_detailed">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/chatgpt_widget_detailed_info" />
         </receiver>
         <receiver android:name=".widget.WidgetActionReceiver" android:exported="false" />
     </application>

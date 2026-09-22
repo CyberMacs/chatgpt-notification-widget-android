@@ -43,7 +43,7 @@ Az Android rendszer és a ChatGPT alkalmazás dönt arról, milyen notification-
 
 ## Ellenőrzött build
 
-2026-09-20: a 	estDebugUnitTest assembleDebug sikeresen lefutott. Az ellenőrzött, v2 Android APK-aláírású telepítő a projekt Final/ChatGPT-Notification-Widget-v0.1.0-debug.apk fájlja.
+2026-09-22: a `testDebugUnitTest assembleDebug` sikeresen lefutott. Az ellenőrzött, v2 Android APK-aláírású telepítő a GitHub Release-ben lévő `ChatGPT-Notification-Widget-v0.1.3.apk` fájl.
 
 ## Samsung APK-telepítés – ideiglenes engedélyek
 
